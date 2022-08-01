@@ -1,12 +1,11 @@
 import { jest } from "@jest/globals";
-import app from '../../src/app.js';
-import supertest from 'supertest';
 import { prisma } from "../../src/database.js";
 import { recommendationService } from '../../src/services/recommendationsService.js';
 import { Recommendation } from "@prisma/client";
 import { recommendationRepository } from '../../src/repositories/recommendationRepository.js';
 import { conflictError, notFoundError } from '../../src/utils/errorUtils.js';
 import recommendationsFactory from '../factories/recomendations.factory.js';
+import { e2eTestService } from "../../src/services/e2eTestService.js";
 
 jest.mock("../../src/repositories/recommendationRepository.js");
 
@@ -266,7 +265,7 @@ describe("Recommendations Service", () => {
     describe('Reset', () => {
         it ('should reset the recommendations', async () => {
             jest.spyOn(recommendationRepository, "reset").mockImplementationOnce((): any => { return recommendations; });
-            const result = await recommendationService.reset();
+            const result = await e2eTestService.reset();
             expect(recommendationRepository.reset).toHaveBeenCalled();
         })
     })
